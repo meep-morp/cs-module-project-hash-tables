@@ -48,15 +48,20 @@ MIN_CAPACITY = 8
 
 class HashTable:
     """
-    A hash table that with `capacity` buckets
+    A hash table that starts with `capacity` buckets
     that accepts string keys
 
     Implement this.
     """
 
     def __init__(self, capacity):
-        # Your code here
-        pass
+        # Keep capacity at the minimum
+        if capacity < MIN_CAPACITY:
+            capacity = MIN_CAPACITY
+
+        self.capacity = capacity
+        self.table = [None] * capacity
+        self.count = 0
 
     def get_num_slots(self):
         """
@@ -68,8 +73,7 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-        pass
+        return self.count
 
     def get_load_factor(self):
         """
@@ -77,8 +81,7 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-        pass
+        return self.count / self.capacity
 
     def fnv1(self, key):
         """
@@ -96,8 +99,13 @@ class HashTable:
 
         Implement this, and/or FNV-1.
         """
-        # Your code here
-        pass
+        hash_val = 5381
+
+        for c in key:
+            # Using 33 spreads the numbers evenly
+            hash_val = (hash_val * 33) + ord(c)
+
+        return hash_val
 
     def hash_index(self, key):
         """
@@ -115,8 +123,8 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-        pass
+        index = self.hash_index(key)
+        self.table[index] = value
 
     def delete(self, key):
         """
@@ -125,9 +133,9 @@ class HashTable:
         Print a warning if the key is not found.
 
         Implement this.
-        """
-        # Your code here
-        pass
+=       """
+        index = self.hash_index(key)
+        self.table[index] = None
 
     def get(self, key):
         """
@@ -137,8 +145,8 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-        pass
+        index = self.hash_index(key)
+        return self.table[index]
 
     def resize(self, new_capacity):
         """
@@ -147,7 +155,10 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        # self.capacity = new_capacity
+        # new_table = [None] * self.capacity
+        # for i in self.table:
+        #     if i != None:
         pass
 
 

@@ -59,7 +59,8 @@ def get(key):
 
 
 def delete(key):
-    pass
+    index = get_index(key)
+    table[index] = None
 
 
 put("Beej", 3490)
