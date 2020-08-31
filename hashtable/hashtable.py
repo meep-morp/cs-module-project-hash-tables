@@ -89,9 +89,11 @@ class HashTable:
 
         Implement this, and/or DJB2.
         """
-
-        # Your code here
-        pass
+        hash_val = 14695981039346656037
+        for x in key:
+            hash_val = hash_val ^ ord(x)
+            hash_val = (hash_val * 1099411628211)
+        return hash_val
 
     def djb2(self, key):
         """
