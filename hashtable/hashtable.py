@@ -149,7 +149,7 @@ class HashTable:
             # Check if key == current key, replace it
             if cur.key == key:
                 cur.value = value
-            # Else, place key at current index
+            # Else, place key before the current index
             else:
                 entry = HashTableEntry(key, value)
                 entry.next = self.table[index]
@@ -163,9 +163,42 @@ class HashTable:
         Print a warning if the key is not found.
 
         Implement this.
-=       """
+        """
+
+        # Store the key index
         index = self.hash_index(key)
-        self.table[index] = None
+        # If key is in the right spot remove it
+        if self.table[index].key == key:
+            # Check if it is the only value
+            if self.table[index].next == None:
+                self.table[index] = None
+                self.count -= 1
+            else:
+                new_head = self.table[index].next
+                self.table[index].next = None
+                self.table[index] = new_head
+                count -= 1
+        else:
+            if self.table[index] == None:
+                print("List is empty")
+                return None
+                # Search for key in a Loop
+            else:
+                cur = self.table[index]
+                prev = None
+                # Loop through list
+                while cur is not None:
+                    # Remove the value and set the prev key's next to the current next
+                    if cur.key == key:
+                        prev.next = cur.next
+                        self.count -= 1
+                        return cur
+                    else:
+                        prev = cur
+                        cur = cur.next
+                # If the key is not found, return a warning
+                print("Key not found")
+                return None
 
     def get(self, key):
         """

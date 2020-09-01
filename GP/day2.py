@@ -50,26 +50,27 @@ class LinkedList:
         return None
 
     def delete(self, value):
-        if self.head is None:
-            return None
+        cur = self.head
+        # Special case of deleting head
 
-        elif value == self.head.value:
-            deleted = self.head
-            self.head = self.head.next
-            return deleted
+        if cur.value == value:
+            self.head = cur.next
+            return cur
 
-        else:
-            cur = self.head
+        # General case of deleting internal node
 
-            while cur.next != None:
-                if cur.next.value == value:
-                    deleted = cur.next.value
-                    cur.next = cur.next.next
-                    return deleted
+        prev = cur
+        cur = cur.next
 
+        while cur is not None:
+            if cur.value == value:  # Found it!
+                prev.next = cur.next   # Cut it out
+                return cur  # Return deleted node
+            else:
+                prev = cur
                 cur = cur.next
 
-            return None
+        return None  # If we got here, nothing found
 
 # New hash ->
 
@@ -101,6 +102,29 @@ def delete(key):
     table[index] = None
 
 
+def rehash():
+    new_table = [None] * (len(table) * 2)
+    # pseudocode
+    """
+    for each slot in table:
+        for each element in the linked list in that slot:
+            PUT that element in new_table
+    """
+
+
 put("Beej", 3490)
 print(get("Beej"))
 print(get("jeeB"))
+
+
+"""
+    Algorithm GET:
+        Get the index for the key
+        Search the linked list at that index for the entry for that key
+        Return the value (or None if not found)
+    Algorithm PUT:
+        Get the index for the key
+        Search the list for the key
+        If it exists, overwrite the value
+        Else, insert the [key,value] at the head of the linked list at that slot
+"""
