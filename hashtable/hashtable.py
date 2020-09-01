@@ -1,4 +1,5 @@
 """
+    DAY 1
     Task: Implement a basic hash table without collision resolution.
 
     Implement a HashTable class and HashTableEntry class.
@@ -28,7 +29,14 @@
     Implement the hash_index() that returns an index value for a key.
 
     Implement the put(), get(), and delete() methods.
+
+    Day 2
+    Task: Implement linked-list chaining for collision resolution.
+
+    Modify put(), get(), and delete() methods to handle collisions.
 """
+
+from singly_linked_list import LinkedList
 
 
 class HashTableEntry:
