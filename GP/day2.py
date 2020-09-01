@@ -75,6 +75,20 @@ class LinkedList:
 # New hash ->
 
 
+"""
+    load_factor = number_of_items / number_of_slots_in_array
+    load_factor = 29 / 8 = 3.625
+    load_factor = 29 / 256 = 0.113
+    When the load factor > 0.7, it's time to increase the number of slots
+    When the load factor < 0.2, it's time to decrease the number of slots (down to some minimum)
+    "Rehashing"
+    -----------
+    Make a new array of double the size
+    Go through all the elements in the old hash table
+    Insert them into the new array
+"""
+
+
 def hash(s):
     pass
 

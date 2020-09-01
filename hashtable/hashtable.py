@@ -79,7 +79,7 @@ class HashTable:
 
         Implement this.
         """
-        return self.count
+        return self.capacity
 
     def get_load_factor(self):
         """
@@ -155,6 +155,9 @@ class HashTable:
                 entry.next = self.table[index]
                 self.table[index] = entry
                 self.count += 1
+        # Check load factor and double if necessary
+        if self.get_load_factor() > .7:
+            self.resize(self.capacity * 2)
 
     def delete(self, key):
         """
@@ -167,37 +170,40 @@ class HashTable:
 
         # Store the key index
         index = self.hash_index(key)
-        # If key is in the right spot remove it
-        if self.table[index].key == key:
-            # Check if it is the only value
-            if self.table[index].next == None:
-                self.table[index] = None
-                self.count -= 1
-            else:
-                new_head = self.table[index].next
-                self.table[index].next = None
-                self.table[index] = new_head
-                count -= 1
+
+        if self.table[index] is None:
+            return None
         else:
-            if self.table[index] == None:
-                print("List is empty")
-                return None
-                # Search for key in a Loop
+            cur = self.table[index]
+            prev = None
+
+            # Search for key in a Loop
+            while cur.key != key and cur.next is not None:
+                prev = cur
+                cur = cur.next
+
+            if cur.key == key:
+                # if it is the head
+                if prev is None:
+                    self.table[index] = cur.next
+                else:
+                    # move to next key
+                    prev.next = cur.next
+
+                if self.table[index] is None:
+                    self.count -= 1
+
+                # Check load factor ->
+                # If decreases below .2, rehash table until it reaches the minimum
+                if self.get_load_factor() < .2:
+                    if self.capacity/2 > 8:
+                        self.resize(self.capacity//2)
+                    elif self.capacity > 8:
+                        self.resize(8)
+
+                return cur.value
             else:
-                cur = self.table[index]
-                prev = None
-                # Loop through list
-                while cur is not None:
-                    # Remove the value and set the prev key's next to the current next
-                    if cur.key == key:
-                        prev.next = cur.next
-                        self.count -= 1
-                        return cur
-                    else:
-                        prev = cur
-                        cur = cur.next
-                # If the key is not found, return a warning
-                print("Key not found")
+                # not found
                 return None
 
     def get(self, key):
@@ -208,8 +214,22 @@ class HashTable:
 
         Implement this.
         """
+        # Get the index for the key
         index = self.hash_index(key)
-        return self.table[index]
+        if self.table[index] is not None and self.table[index].key == key:
+            return self.table[index].value
+        elif self.table[index] is None:
+            return None
+        else:
+            cur = self.table[index]
+            # Search the linked list at that index for the entry for that key
+            while cur.next != None and cur.key != key:
+                cur = self.table[index].next
+            # Return the value (or None if not found)
+            if cur == None:
+                return None
+            else:
+                return cur.value
 
     def resize(self, new_capacity):
         """
@@ -218,11 +238,16 @@ class HashTable:
 
         Implement this.
         """
-        # self.capacity = new_capacity
-        # new_table = [None] * self.capacity
-        # for i in self.table:
-        #     if i != None:
-        pass
+        old_table = self.table[:]
+        self.capacity = new_capacity
+        self.table = [None] * new_capacity
+        # for each slot in table:
+        for i in range(len(old_table)):
+            # for each element in the linked list in that slot:
+            if old_table[i] is not None:
+                cur = old_table[i]
+                # PUT that element in new_table
+                self.put(cur.key, cur.value)
 
 
 if __name__ == "__main__":
