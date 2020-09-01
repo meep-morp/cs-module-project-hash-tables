@@ -131,8 +131,30 @@ class HashTable:
 
         Implement this.
         """
+
+        # Store index(key) to place value
         index = self.hash_index(key)
-        self.table[index] = value
+        # Check that current index has nothing in it
+        if self.table[index] == None:
+            # Place value at key
+            self.table[index] = HashTableEntry(key, value)
+            self.count += 1
+
+        # If spot is taken ->
+        else:
+            cur = self.table[index]
+            # Loop through table
+            while cur.next != None and cur.key != key:
+                cur = cur.next
+            # Check if key == current key, replace it
+            if cur.key == key:
+                cur.value = value
+            # Else, place key at current index
+            else:
+                entry = HashTableEntry(key, value)
+                entry.next = self.table[index]
+                self.table[index] = entry
+                self.count += 1
 
     def delete(self, key):
         """
