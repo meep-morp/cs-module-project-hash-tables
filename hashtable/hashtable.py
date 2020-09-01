@@ -36,8 +36,6 @@
     Modify put(), get(), and delete() methods to handle collisions.
 """
 
-from singly_linked_list import LinkedList
-
 
 class HashTableEntry:
     """
