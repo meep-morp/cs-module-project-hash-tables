@@ -127,6 +127,7 @@ class HashTable:
         """
         index = self.hash_index(key)
         self.table[index] = value
+        self.count += 1
 
     def delete(self, key):
         """
@@ -138,6 +139,7 @@ class HashTable:
 =       """
         index = self.hash_index(key)
         self.table[index] = None
+        self.count -= 1
 
     def get(self, key):
         """
@@ -157,10 +159,6 @@ class HashTable:
 
         Implement this.
         """
-        # self.capacity = new_capacity
-        # new_table = [None] * self.capacity
-        # for i in self.table:
-        #     if i != None:
         pass
 
 
