@@ -21,14 +21,14 @@ def slowfun(x, y):
     output, but completes quickly instead of taking ages to run.
     """
 
-    if x not in slowfun_table:
+    if (x, y) not in slowfun_table:
         v = math.pow(x, y)
         v = math.factorial(v)
         v //= (x + y)
         v %= 982451653
-        slowfun_table[x] = v
+        slowfun_table[(x, y)] = v
 
-    return slowfun_table[x]
+    return slowfun_table[(x, y)]
 
 
 # Do not modify below this line!
