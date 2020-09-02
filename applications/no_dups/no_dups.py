@@ -1,6 +1,17 @@
 def no_dups(s):
-    # Your code here
+    new_s = ""
+    word_list = s.split()
 
+    for w in word_list:
+        if w not in new_s:
+            if new_s == "":
+                new_s += w
+            else:
+                new_s += f" {w}"
+        else:
+            continue
+
+    return new_s
 
 
 if __name__ == "__main__":
